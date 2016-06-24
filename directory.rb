@@ -21,8 +21,9 @@ puts "The students of Villains Academy"
 puts "-------------"
 end
 def print(students)
-  students.each do |student|
-  puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  students.each_with_index do |student, index|
+    number = (index + 1).to_s
+  puts "#{number}.#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
