@@ -22,14 +22,10 @@ def print_header
 end
 
 def print(students)
-  puts "Starting with which letter would you like to see student names?"
-  letter = gets.chomp.capitalize
-  students.each_with_index do |student, index|
-    if letter == student[:name][0]
-      if student[:name].length < 12
-        puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
-      end
-    end
+  index = 0
+  while index < students.length
+    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort)"
+    index += 1
   end
 end
 
