@@ -26,7 +26,9 @@ def print(students)
   letter = gets.chomp.capitalize
   students.each_with_index do |student, index|
     if letter == student[:name][0]
-      puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
+      if student[:name].length < 12
+        puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
+      end
     end
   end
 end
