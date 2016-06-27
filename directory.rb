@@ -1,4 +1,31 @@
 $line_width = 80
+def interactive_menu
+  students = []
+  loop do
+    # 1. print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # 2. read the input and save it into a variable
+    selection = gets.chomp
+    # 3. do what the user has asked
+    case selection
+      when "1"
+        # input the students
+        students = input_students
+      when "2"
+        # show the students
+        print_header
+        print_list(students)
+        print_footer(students)
+      when "9"
+        exit # causes the program to terminate
+      else
+        puts "I don't know what you mean, try again."
+      end
+    # 4. repeat from step 1
+  end
+end
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return."
@@ -44,8 +71,8 @@ def input_students
     name = gets.delete("\n").capitalize
   end
   if students.count < 1
-    puts "No students were entered. Currently there are no students at Villains Academy.".center($line_width)
-    exit
+    puts "No students were entered.".center($line_width)
+    interactive_menu
   end
   # return the array of students
   students
@@ -59,14 +86,14 @@ end
 def print_list(students)
   index = 0
   while index < students.length
-    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort, D.O.B: #{students[index][:dob]}, Country: #{students[index][:country_ob]}, Hobby: #{students[index][:hobby]})".center($line_width)
+    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort, D.O.B: #{students[index][:dob]}, Country: #{students[index][:country_ob]}, Hobby: #{students[index][:hobby]})".ljust(80)
     index += 1
   end
 end
 
 def print_cohort(students)
   students.sort_by {|x| x[:cohort]}.each do |student|
-      puts "#{student[:name]} (#{student[:cohort]} cohort, D.O.B: #{student[:dob]}, Country: #{student[:country_ob]}, Hobby: #{student[:hobby]})".center($line_width)
+      puts "#{student[:name]} (#{student[:cohort]} cohort, D.O.B: #{student[:dob]}, Country: #{student[:country_ob]}, Hobby: #{student[:hobby]})".ljust(80)
   end
 end
 
@@ -74,14 +101,13 @@ def print_footer(students)
   puts "-------------".center($line_width)
   message = "Overall, we have #{students.count} great student."
   if students.count > 1
-    print message.gsub(".", "s.").center($line_width)
-  else puts message.center($line_width)
+    print message.gsub(".", "s.\n").center($line_width)
+  else
+    puts message.center($line_width)
   end
+  puts
 end
 # nothing happends until the methods are called
 
-students = input_students
-print_header
-print_list(students)
 #print_cohort(students)
-print_footer(students)
+interactive_menu
