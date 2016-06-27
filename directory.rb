@@ -54,6 +54,13 @@ def print(students)
   end
 end
 
+def print_cohort(students)
+  students.sort_by {|x| x[:cohort]}.each do |student|
+      puts "#{student[:name]} (#{student[:cohort]} cohort, D.O.B: #{student[:dob]}, Country: #{student[:country_ob]}, Hobby: #{student[:hobby]})".center(80)
+  end
+end
+
+
 def print_footer(students)
   puts "-------------".center(80)
   puts "Overall, we have #{students.count} great students".center(80)
@@ -62,5 +69,6 @@ end
 
 students = input_students
 print_header
-print(students)
+#print(students)
+print_cohort(students)
 print_footer(students)
