@@ -71,7 +71,7 @@ def input_students
       while hobby.empty?
       hobby = "unknown"
       end
-    @students << {name: name, cohort: cohort, dob: dob, country_ob: country_ob, hobby: hobby}
+    add_info(name, cohort, dob, country_ob, hobby)
     student_total = "Now we have #{@students.count} student."
     if @students.count > 1
       print student_total.gsub(".", "s.\n")
@@ -86,6 +86,10 @@ def input_students
     interactive_menu
   end
   @students
+end
+
+def add_info(name, cohort, dob, country_ob, hobby)
+  @students << {name: name, cohort: cohort, dob: dob, country_ob: country_ob, hobby: hobby}
 end
 
 def print_header
@@ -132,7 +136,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, dob, country_ob, hobby = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym, dob: dob, country_ob: country_ob, hobby: hobby}
+    add_info(name, cohort, dob, country_ob, hobby)
   end
   file.close
 end
