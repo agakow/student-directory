@@ -3,31 +3,31 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return."
   students = []
-  name = gets.chomp.capitalize
+  name = gets.delete("\n").capitalize
   # while the name is not empty. repeat this code
   while !name.empty? do
     puts "Please enter cohort month"
-    cohort = gets.chomp.capitalize.to_sym
+    cohort = gets.delete("\n").capitalize.to_sym
     month = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
       while !month.include?(cohort) || cohort.empty? do
         if cohort.empty?
           cohort = month[Time.now.month - 1]
         elsif !month.include?(cohort)
          puts "Please enter a valid month or hit return for default (current month)."
-         cohort = gets.chomp.capitalize.to_sym
+         cohort = gets.delete("\n").capitalize.to_sym
         end
       end
     puts "Please enter date of birth for #{name} (dd-mm-yyyy)"
-    dob = gets.chomp
+    dob = gets.delete("\n")
     puts "Please enter the country of birth for #{name}."
     puts "If unknown, hit return."
-    country_ob = gets.chomp.capitalize
+    country_ob = gets.delete("\n").capitalize
       while country_ob.empty?
         country_ob = "unknown"
       end
     puts "Please enter #{name}'s hobby"
     puts "If unknown, hit return."
-    hobby = gets.chomp.capitalize
+    hobby = gets.delete("\n").capitalize
       while hobby.empty?
       hobby = "unknown"
       end
@@ -36,7 +36,7 @@ def input_students
     puts "Please enter the name of another student."
     puts "To finish hit return."
     # get another name from the user
-    name = gets.chomp.capitalize
+    name = gets.delete("\n").capitalize
   end
   # return the array of students
   students
