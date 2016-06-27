@@ -32,11 +32,20 @@ def input_students
       hobby = "unknown"
       end
     students << {name: name, cohort: cohort, dob: dob, country_ob: country_ob, hobby: hobby}
-    puts "Now we have #{students.count} students."
+    student_total = "Now we have #{students.count} student."
+    if students.count > 1
+      print student_total.gsub(".", "s.\n")
+    else puts student_total
+    end
+
     puts "Please enter the name of another student."
     puts "To finish hit return."
     # get another name from the user
     name = gets.delete("\n").capitalize
+  end
+  if students.count < 1
+    puts "No students were entered. Currently there are no students at Villains Academy.".center($line_width)
+    exit
   end
   # return the array of students
   students
@@ -47,7 +56,7 @@ def print_header
   puts "-------------".center($line_width)
 end
 
-def print(students)
+def print_list(students)
   index = 0
   while index < students.length
     puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort, D.O.B: #{students[index][:dob]}, Country: #{students[index][:country_ob]}, Hobby: #{students[index][:hobby]})".center($line_width)
@@ -63,18 +72,16 @@ end
 
 def print_footer(students)
   puts "-------------".center($line_width)
-  if students.count < 1
-    puts "Currently, there are no students at Villains Academy".center($line_width)
-  elsif students.count == 1
-    puts "Overall, we have 1 great student".center($line_width)
-  else
-    puts "Overall, we have #{students.count} great student".center($line_width)
+  message = "Overall, we have #{students.count} great student."
+  if students.count > 1
+    print message.gsub(".", "s.").center($line_width)
+  else puts message.center($line_width)
   end
 end
 # nothing happends until the methods are called
 
 students = input_students
 print_header
-print(students)
+print_list(students)
 #print_cohort(students)
 print_footer(students)
