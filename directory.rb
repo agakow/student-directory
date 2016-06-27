@@ -6,14 +6,14 @@ def input_students
   # while the name is not empty. repeat this code
   while !name.empty? do
     puts "Please enter cohort month"
-    cohort = gets.chomp.capitalize
-    month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    cohort = gets.chomp.capitalize.to_sym
+    month = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
       while !month.include?(cohort) || cohort.empty? do
         if cohort.empty?
           cohort = month[Time.now.month - 1]
         elsif !month.include?(cohort)
          puts "Please enter a valid month or hit return for default (current month)."
-         cohort = gets.chomp.capitalize
+         cohort = gets.chomp.capitalize.to_sym
         end
       end
     puts "Please enter date of birth for #{name} (dd-mm-yyyy)"
