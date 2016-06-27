@@ -1,3 +1,4 @@
+$line_width = 80
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return."
@@ -42,33 +43,38 @@ def input_students
 end
 
 def print_header
-  puts "The students of Villains Academy".center(80)
-  puts "-------------".center(80)
+  puts "The students of Villains Academy".center($line_width)
+  puts "-------------".center($line_width)
 end
 
 def print(students)
   index = 0
   while index < students.length
-    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort, D.O.B: #{students[index][:dob]}, Country: #{students[index][:country_ob]}, Hobby: #{students[index][:hobby]})".center(80)
+    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort, D.O.B: #{students[index][:dob]}, Country: #{students[index][:country_ob]}, Hobby: #{students[index][:hobby]})".center($line_width)
     index += 1
   end
 end
 
 def print_cohort(students)
   students.sort_by {|x| x[:cohort]}.each do |student|
-      puts "#{student[:name]} (#{student[:cohort]} cohort, D.O.B: #{student[:dob]}, Country: #{student[:country_ob]}, Hobby: #{student[:hobby]})".center(80)
+      puts "#{student[:name]} (#{student[:cohort]} cohort, D.O.B: #{student[:dob]}, Country: #{student[:country_ob]}, Hobby: #{student[:hobby]})".center($line_width)
   end
 end
 
-
 def print_footer(students)
-  puts "-------------".center(80)
-  puts "Overall, we have #{students.count} great students".center(80)
+  puts "-------------".center($line_width)
+  if students.count < 1
+    puts "Currently, there are no students at Villains Academy".center($line_width)
+  elsif students.count == 1
+    puts "Overall, we have 1 great student".center($line_width)
+  else
+    puts "Overall, we have #{students.count} great student".center($line_width)
+  end
 end
 # nothing happends until the methods are called
 
 students = input_students
 print_header
-#print(students)
-print_cohort(students)
+print(students)
+#print_cohort(students)
 print_footer(students)
