@@ -1,14 +1,26 @@
 def input_students
   puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "To finish, just hit return."
   # creating an empty array
   students = []
   # get the first name
   name = gets.chomp.capitalize
   # while the name is not empty. repeat this code
   while !name.empty? do
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
+    puts "Please enter date of birth for #{name} (dd/mm/yyyy)"
+    dob = gets.chomp
+    puts "Please enter the country of birth for #{name}."
+    puts "If unknown, hit return."
+    country_ob = gets.chomp.capitalize
+      while country_ob.empty?
+        country_ob = "unknown"
+      end
+    puts "Please enter #{name}'s hobby"
+    hobby = gets.chomp
+    students << {name: name, cohort: :november, dob: dob, country_ob: country_ob, hobby: hobby}
+    puts "Now we have #{students.count} students."
+    puts "Please enter the name of another student."
+    puts "To finish hit return."
     # get another name from the user
     name = gets.chomp.capitalize
   end
@@ -24,7 +36,7 @@ end
 def print(students)
   index = 0
   while index < students.length
-    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort)"
+    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort, D.O.B: #{students[index][:dob]}, Country: #{students[index][:country_ob]}, Hobby: #{students[index][:hobby]})"
     index += 1
   end
 end
