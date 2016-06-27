@@ -16,7 +16,7 @@ def input_students
         country_ob = "unknown"
       end
     puts "Please enter #{name}'s hobby"
-    hobby = gets.chomp
+    hobby = gets.chomp.capitalize
     students << {name: name, cohort: :november, dob: dob, country_ob: country_ob, hobby: hobby}
     puts "Now we have #{students.count} students."
     puts "Please enter the name of another student."
@@ -29,20 +29,21 @@ def input_students
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(80)
+  puts "-------------".center(80)
 end
 
 def print(students)
   index = 0
   while index < students.length
-    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort, D.O.B: #{students[index][:dob]}, Country: #{students[index][:country_ob]}, Hobby: #{students[index][:hobby]})"
+    puts "#{index + 1}.#{students[index][:name]} (#{students[index][:cohort]} cohort, D.O.B: #{students[index][:dob]}, Country: #{students[index][:country_ob]}, Hobby: #{students[index][:hobby]})".center(80)
     index += 1
   end
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  puts "-------------".center(80)
+  puts "Overall, we have #{students.count} great students".center(80)
 end
 # nothing happends until the methods are called
 
