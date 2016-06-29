@@ -1,5 +1,6 @@
 @students = []
 @line_width = 110
+
 def interactive_menu
   loop do
     print_menu
@@ -15,8 +16,8 @@ def print_menu
   space = " " * (@line_width/3)
   puts space + "1. Input the students"
   puts space + "2. Show the student list"
-  puts space + "3. Save the list to students.csv"
-  puts space + "4. Load the list from students.csv"
+  puts space + "3. Save student list to a file"
+  puts space + "4. Load a student list from file"
   puts space + "9. Exit"
 end
 
@@ -30,26 +31,26 @@ def show_students
   end
 end
 
-
 def process(selection)
   case selection
     when "1"
-      puts "You've chosen to input new students."
+      puts "---You've chosen to input new students---"
       input_students
     when "2"
-      puts "You've chosen to display the student list."
+      puts "---You've chosen to display the student list---".center(@line_width)
       show_students
     when "3"
-      puts "You've chosen to save the current student list to students.csv."
+      puts "---You've chosen to save the current student list---"
       save_students
     when "4"
-      puts "You've chosen to load the student list from students.csv "
+      puts "---You've chosen to load the student list from a file---"
       load_students
     when "9"
-      puts "You've chosen to exit the progam. Goodbye!"
+      puts "---You've chosen to exit the progam. Goodbye!---".center(@line_width)
+      puts
       exit
     else
-      puts "I don't know what you mean, try again."
+      puts "---I don't know what you mean, try again---".center(@line_width)
   end
 end
 
@@ -62,8 +63,8 @@ def input_students
     hobby = get_hobby
     add_info(name, cohort, dob, country, hobby)
     student_total
-    puts "Please enter the name of another student."
-    puts "To finish hit return."
+    puts "Please enter the name of another student:"
+    puts "(Hit return to go back to the menu)"
     name = STDIN.gets.chomp.capitalize
   end
   no_students if @students.count < 1
@@ -85,8 +86,8 @@ def student_total
 end
 
 def get_name
-  puts "Please enter the names of the students."
-  puts "To finish, just hit return."
+  puts "Please enter the name of the student:"
+  puts "(Hit return to go back to the menu)"
   STDIN.gets.chomp.capitalize
 end
 
@@ -106,14 +107,14 @@ def get_cohort
 end
 
 def get_dob
-  puts "Please enter the students' date of birth. (dd/mm/yyyy)"
+  puts "Please enter the students' date of birth: (dd/mm/yyyy)"
   dob = STDIN.gets.chomp
   dob = "unknown" if dob.empty?
   dob
 end
 
 def get_country
-  puts "Please enter the students' country of birth."
+  puts "Please enter the students' country of birth:"
   puts "If unknown, hit return."
   country = STDIN.gets.chomp.capitalize
   country = "unknown" if country.empty?
@@ -121,7 +122,7 @@ def get_country
 end
 
 def get_hobby
-  puts "Please enter the students' hobby"
+  puts "Please enter the students' hobby:"
   puts "If unknown, hit return."
   hobby = STDIN.gets.chomp.capitalize
   hobby = "unknown" if hobby.empty?
@@ -137,7 +138,7 @@ def print_header
   puts "-" * @line_width
 end
 
-def print_list
+def print_list_titles
   print "NO.".center(10)
   print "NAME".center(20)
   print "COHORT".center(20)
@@ -145,6 +146,10 @@ def print_list
   print "COUNTRY".center(20)
   puts "HOBBY".center(20)
   puts "-" * @line_width
+end
+
+def print_list
+  print_list_titles
   count = 1
   @students.each do |student|
     print count.to_s.center(10)
@@ -158,8 +163,16 @@ def print_list
 end
 
 def print_cohort
+  print_list_titles
+  count = 1
   @students.sort_by {|x| x[:cohort]}.each do |student|
-      puts "#{student[:name]} (#{student[:cohort]} cohort, D.O.B: #{student[:dob]}, Country: #{student[:country]}, Hobby: #{student[:hobby]})"
+    print count.to_s.center(10)
+    print "#{student[:name]}".center(20)
+    print "#{student[:cohort]}".center(20)
+    print "#{student[:dob]}".center(20)
+    print "#{student[:country]}".center(20)
+    puts "#{student[:hobby]}".center(20)
+    count += 1
   end
 end
 
@@ -175,16 +188,23 @@ def print_footer
 end
 
 def save_students
-  file = File.open("students.csv", "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort], student[:dob], student[:country], student[:hobby]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
-  end
+  puts "What would you like to save your file as?"
+  puts "(Hit return to go back to the menu)"
+  file_name = STDIN.gets.chomp
+  if file_name.empty?
+    interactive_menu
+  else
+    file = File.open(file_name, "w")
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort], student[:dob], student[:country], student[:hobby]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   file.close
+  end
 end
 
-def load_students(filename = "students.csv")
+def load_file(filename = @file_load)
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, dob, country, hobby = line.chomp.split(',')
@@ -193,12 +213,23 @@ def load_students(filename = "students.csv")
   file.close
 end
 
+def load_students
+  puts "Which file would you like to load?"
+  puts "(Hit return to go back to the menu)"
+  @file_load = STDIN.gets.chomp
+  if @file_load.empty?
+    interactive_menu
+  else
+    load_file
+  end
+end
+
 def try_load_students
   filename = ARGV.first
   filename = "students.csv" if filename.nil?
   if File.exists?(filename)
-    load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}".center(@line_width)
+    load_file(filename)
+    puts "Loaded #{@students.count} from default file #{filename}".center(@line_width)
   else
     puts "Sorry, #{filename} doesn't exist.".center(@line_width)
     exit
