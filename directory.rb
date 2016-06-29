@@ -1,3 +1,4 @@
+require 'csv'
 @students = []
 @line_width = 110
 
@@ -199,21 +200,17 @@ def save_students
 end
 
 def write_file
-  File.open(@file_name, "w") do |file|
+  CSV.open(@file_name, "w") do |file|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort], student[:dob], student[:country], student[:hobby]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      file << [student[:name], student[:cohort], student[:dob], student[:country], student[:hobby]]
     end
   end
 end
 
 def load_file(filename = @file_load)
-  File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      name, cohort, dob, country, hobby = line.chomp.split(',')
-      add_info(name, cohort, dob, country, hobby)
-    end
+  CSV.foreach(filename, "r") do |row|
+    name, cohort, dob, country, hobby = row
+    add_info(name, cohort, dob, country, hobby)
   end
 end
 
