@@ -14,7 +14,7 @@ def print_menu
   puts ("-" * 50).center(@line_width)
   space = " " * (@line_width/3)
   puts space + "1. Input the students"
-  puts space + "2. Show the students"
+  puts space + "2. Show the student list"
   puts space + "3. Save the list to students.csv"
   puts space + "4. Load the list from students.csv"
   puts space + "9. Exit"
@@ -34,14 +34,19 @@ end
 def process(selection)
   case selection
     when "1"
+      puts "You've chosen to input new students."
       input_students
     when "2"
+      puts "You've chosen to display the student list."
       show_students
     when "3"
+      puts "You've chosen to save the current student list to students.csv."
       save_students
     when "4"
+      puts "You've chosen to load the student list from students.csv "
       load_students
     when "9"
+      puts "You've chosen to exit the progam. Goodbye!"
       exit
     else
       puts "I don't know what you mean, try again."
