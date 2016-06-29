@@ -190,27 +190,31 @@ end
 def save_students
   puts "What would you like to save your file as?"
   puts "(Hit return to go back to the menu)"
-  file_name = STDIN.gets.chomp
-  if file_name.empty?
+  @file_name = STDIN.gets.chomp
+  if @file_name.empty?
     interactive_menu
   else
-    file = File.open(file_name, "w")
+    write_file
+  end
+end
+
+def write_file
+  File.open(@file_name, "w") do |file|
     @students.each do |student|
       student_data = [student[:name], student[:cohort], student[:dob], student[:country], student[:hobby]]
       csv_line = student_data.join(",")
       file.puts csv_line
     end
-  file.close
   end
 end
 
 def load_file(filename = @file_load)
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort, dob, country, hobby = line.chomp.split(',')
-    add_info(name, cohort, dob, country, hobby)
+  File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+      name, cohort, dob, country, hobby = line.chomp.split(',')
+      add_info(name, cohort, dob, country, hobby)
+    end
   end
-  file.close
 end
 
 def load_students
