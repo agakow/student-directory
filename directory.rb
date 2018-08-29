@@ -208,7 +208,7 @@ def write_file
 end
 
 def load_file(filename = @file_load)
-  CSV.foreach(filename, "r") do |row|
+  CSV.foreach(filename) do |row|
     name, cohort, dob, country, hobby = row
     add_info(name, cohort, dob, country, hobby)
   end
